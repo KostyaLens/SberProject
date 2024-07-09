@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update plan</title>
+</head>
+<body>
+
+<form th:method="POST" th:action="@{/ToDO/{id}(id=${onePlan.getId()})}" th:object="${plan}">
+    Название цели: <input type="text" name="name" ><br/>
+    Описание: <input type="text" step="any" name="description"><br/>
+    <input type="checkbox" value="true" name="completed">
+    <div><input type = "radio" value="1" name="rating" /> <input type = "radio"
+         value="2" name="rating" /> <input type = "radio" value="3" name="rating" />
+        <input type = "radio" value="4" name="rating" />
+        <input type = "radio" value="5" name="rating" /></div>
+    <label for="localdate">Дата и время: </label>
+    <input type="datetime-local" id="localdate" name="date"/><br />
+    <input type="submit" value="Update!"/>
+
+</form>
+<!--<form th:method="DELETE" th:action="@{/ToDO/{id}(id=${onePlan.getId()})}">-->
+<!--    <input type="submit" value="Delete"/>-->
+<!--</form>-->
+</body>
+</html>

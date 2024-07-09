@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>o</title>
+</head>
+<body>
+
+
+<p th:text="${'название цели: ' + onePlan.getName()}"></p>
+<p th:text="${'Описание ' + onePlan.getDescription()}"></p>
+<p th:text="${'Выполнить до: ' + onePlan.getDeadline()}"></p>
+<p th:text="${'Важность задачи ' + onePlan.getRating()}"></p>
+<form th:method="POST" th:action="@{/ToDO/{id}(id=${onePlan.getId()})}">
+    <input type="submit" value="Delete"/>
+</form>
+<a th:href="@{/ToDO/{id}/edit(id=${onePlan.getId()})}">Edit</a>
+</body>
+</html>
