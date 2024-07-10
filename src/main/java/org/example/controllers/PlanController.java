@@ -1,27 +1,39 @@
 package org.example.controllers;
 
-import org.example.model.Plan;
+import lombok.extern.slf4j.Slf4j;
+import org.example.entity.Plan;
 import org.example.services.PlanServices;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.example.Time;
 
+import java.net.URISyntaxException;
 
-@Controller
+@Slf4j
+@RestController
 @RequestMapping("/ToDO")
 public class PlanController {
-
     private final PlanServices planServices;
+    private final Time time = new Time();
 
     public PlanController(PlanServices planServices) {
         this.planServices = planServices;
     }
-    private Time time = new Time();
+    @PostMapping
+    public ResponseEntity<Void> addProduct(@RequestBody Plan plan) throws URISyntaxException {
+        log.info("Добавление продукта {}", plan);
 
+        long id = planService.save(plan);
+
+        return ResponseEntity
+                .created(new URI("http://localhost:8080/products/" + id))
+                .build();
+    }
     @GetMapping()
     public String viewPlans(Model model) {
-        var plan = planServices.allPlans();
+        var plan = planServices.viewAll();
         model.addAttribute("plan", plan);
         System.out.println("sadasdw");
         return "ToDO.html";
@@ -41,7 +53,7 @@ public class PlanController {
         p.setRating(rating);
         p.setDeadline(time.convertStringToDAteTime(dateTime));
         planServices.save(p);
-        var products = planServices.allPlans();
+        var products = planServices.viewAll();
         model.addAttribute("plan", products);
 
         return "ToDO";
@@ -49,15 +61,16 @@ public class PlanController {
 
     @GetMapping("/{id}")
     public String show(@PathVariable("id") int id, Model model) {
-        model.addAttribute("onePlan", planServices.show(id));
+        model.addAttribute("onePlan", planServices.findById(id));
         return "show";
     }
 
     @GetMapping("/{id}/edit")
     public String edit(@PathVariable("id") int id, Model model) {
-        model.addAttribute("onePlan", planServices.show(id));
+        model.addAttribute("onePlan", planServices.findById(id));
         return "edit";
     }
+
     @PostMapping("/{id}/edit")
     public String update(@RequestParam String name,
                          @RequestParam String description,
@@ -66,7 +79,7 @@ public class PlanController {
                          @RequestParam("date") String dateTime,
                          @PathVariable("id") int id) {
         planServices.update(id, name, description, completed, rating, dateTime);
-        return "ToDO/{id}";
+        return "redirect:/ToDO";
     }
 
 //    @GetMapping(params = {"sort"})
@@ -78,7 +91,7 @@ public class PlanController {
 //        return "ToDO.html";
 //    }
 
-    @PostMapping("/{id}")
+    @PostMapping("/{id}/delete")
     public String delete(@PathVariable("id") int id) {
         planServices.delete(id);
         System.out.println("sad");
