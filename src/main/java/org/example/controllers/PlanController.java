@@ -3,14 +3,13 @@ package org.example.controllers;
 import lombok.extern.slf4j.Slf4j;
 import org.example.entity.Plan;
 import org.example.services.PlanServices;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+import org.example.services.PlanServicesImpl;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.example.Time;
 
-import java.net.URI;
-import java.net.URISyntaxException;
+import java.time.LocalDateTime;
+
 
 @Slf4j
 @RestController
@@ -19,19 +18,10 @@ public class PlanController {
     private final PlanServices planServices;
     private final Time time = new Time();
 
-    public PlanController(PlanServices planServices) {
+    public PlanController(PlanServicesImpl planServices) {
         this.planServices = planServices;
     }
-    @PostMapping
-    public ResponseEntity<Void> addProduct(@RequestBody Plan plan) throws URISyntaxException {
-        log.info("Добавление продукта {}", plan);
 
-        long id = planServices.save(plan);
-
-        return ResponseEntity
-                .created(new URI("http://localhost:8080/products/" + id))
-                .build();
-    }
     @GetMapping()
     public String viewPlans(Model model) {
         var plan = planServices.viewAll();
@@ -41,7 +31,7 @@ public class PlanController {
     }
 
     @PostMapping()
-    public String addProduct(
+    public String addPlan(
             @RequestParam String name,
             @RequestParam String description,
             @RequestParam int rating,
@@ -54,8 +44,8 @@ public class PlanController {
         p.setRating(rating);
         p.setDeadline(time.convertStringToDAteTime(dateTime));
         planServices.save(p);
-        var products = planServices.viewAll();
-        model.addAttribute("plan", products);
+        var plan = planServices.viewAll();
+        model.addAttribute("plan", plan);
 
         return "ToDO";
     }
@@ -79,7 +69,8 @@ public class PlanController {
                          @RequestParam boolean completed,
                          @RequestParam("date") String dateTime,
                          @PathVariable("id") int id) {
-        planServices.update(id, name, description, completed, rating, dateTime);
+        LocalDateTime localDateTime = time.convertStringToDAteTime(dateTime);
+        planServices.update(id, name, description, completed, rating, localDateTime);
         return "redirect:/ToDO";
     }
 
