@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.example.Time;
 
+import java.net.URI;
 import java.net.URISyntaxException;
 
 @Slf4j
@@ -25,7 +26,7 @@ public class PlanController {
     public ResponseEntity<Void> addProduct(@RequestBody Plan plan) throws URISyntaxException {
         log.info("Добавление продукта {}", plan);
 
-        long id = planService.save(plan);
+        long id = planServices.save(plan);
 
         return ResponseEntity
                 .created(new URI("http://localhost:8080/products/" + id))
