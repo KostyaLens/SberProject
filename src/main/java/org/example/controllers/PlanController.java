@@ -75,12 +75,11 @@ public class PlanController {
 //        LocalDateTime localDateTime = time.convertStringToDAteTime(dateTime);
         System.out.println("asdasdsadsa");
         Plan p = new Plan();
-        p.setId(id);
         p.setName(name);
         p.setDescription(description);
         p.setRating(rating);
         p.setDeadline(time.convertStringToDAteTime(dateTime));
-        planServices.update(p);
+        planServices.update(p, id);
         return "redirect:/ToDO";
     }
 

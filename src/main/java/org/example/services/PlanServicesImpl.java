@@ -39,8 +39,9 @@ public class PlanServicesImpl implements PlanServices{
 
     @Override
     @Transactional
-    public void update(Plan plan) {
+    public void update(Plan plan, long id) {
         System.out.println("jjjjjdasd");
+        plan.setId(id);
         planRepository.save(plan);
     }
 

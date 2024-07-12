@@ -13,7 +13,7 @@ public interface PlanServices {
 
     List<Plan> viewAll();
 
-    void update(Plan plan);
+    void update(Plan plan, long id);
 
     void delete(long id);
 }
