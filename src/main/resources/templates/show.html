@@ -6,7 +6,7 @@
 </head>
 <body>
 
-
+<div>
 <p th:text="${'название цели: ' + onePlan.getName()}"></p>
 <p th:text="${'Описание ' + onePlan.getDescription()}"></p>
 <p th:text="${'Выполнить до: ' + onePlan.getDeadline()}"></p>
@@ -15,5 +15,6 @@
     <input type="submit" value="Delete"/>
 </form>
 <a th:href="@{/ToDO/{id}/edit(id=${onePlan.getId()})}">Edit</a>
+</div>
 </body>
 </html>

@@ -9,11 +9,11 @@ import java.util.Optional;
 public interface PlanServices {
      void save(Plan plan);
 
-    Optional<Plan> findById(long id);
+    Plan findById(long id);
 
     List<Plan> viewAll();
 
-//    void update(int id, String name, String description, boolean completed, int rating, LocalDateTime time);
+    void update(Plan plan);
 
     void delete(long id);
 }

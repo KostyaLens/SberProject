@@ -33,14 +33,14 @@ public class PlanServicesss {
             this.plans.stream().sorted(Comparator.comparingInt(Plan::getRating)).toList();
     }
 
-    public void update(int id, String name, String description, boolean completed, int rating, String time) {
-        Plan planToBeUpdated = show(id);
-        planToBeUpdated.setName(name);
-        planToBeUpdated.setDescription(description);
-        planToBeUpdated.setCompleted(completed);
-        planToBeUpdated.setRating(rating);
-        planToBeUpdated.setDeadline(timeDate.convertStringToDAteTime(time));
-    }
+//    public void update(int id, String name, String description, boolean completed, int rating, String time) {
+//        Plan planToBeUpdated = show(id);
+//        planToBeUpdated.setName(name);
+//        planToBeUpdated.setDescription(description);
+//        planToBeUpdated.setCompleted(completed);
+//        planToBeUpdated.setRating(rating);
+//        planToBeUpdated.setDeadline(timeDate.convertStringToDAteTime(time));
+//    }
     public void delete(int id){
         plans.removeIf(p -> p.getId() == id);
     }
