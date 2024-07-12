@@ -6,16 +6,32 @@
 </head>
 <body>
 
-<form th:method="POST" th:action="@{/ToDO/{id}(id=${onePlan.getId()})}" th:object="${plan}">
-    Название цели: <input type="text" name="name" ><br/>
-    Описание: <input type="text" step="any" name="description"><br/>
+<form method="post" th:action="@{/ToDO/{id}/edit(id=${onePlan.getId()})}">
+<!--    Название цели: <input type="text" name="name" ><br/>-->
+<!--    Описание: <input type="text" step="any" name="description"><br/>-->
+<!--    <input type="checkbox" value="true" name="completed">-->
+<!--    <div><input type = "radio" value="1" name="rating" /> <input type = "radio"-->
+<!--         value="2" name="rating" /> <input type = "radio" value="3" name="rating" />-->
+<!--        <input type = "radio" value="4" name="rating" />-->
+<!--        <input type = "radio" value="5" name="rating" /></div>-->
+<!--    <label for="localdate">Дата и время: </label>-->
+<!--    <input type="datetime-local" id="localdate" name="date"/><br />-->
+
+    Название цели: <input type="text" name="name" th:value="${onePlan.getName()}"><br />
+    Описание: <input type="text" step="any" name="description" th:value="${onePlan.getDescription()}"><br />
     <input type="checkbox" value="true" name="completed">
     <div><input type = "radio" value="1" name="rating" /> <input type = "radio"
          value="2" name="rating" /> <input type = "radio" value="3" name="rating" />
         <input type = "radio" value="4" name="rating" />
         <input type = "radio" value="5" name="rating" /></div>
     <label for="localdate">Дата и время: </label>
-    <input type="datetime-local" id="localdate" name="date"/><br />
+    <input type="datetime-local" id="localdate" name="date" th:value="${onePlan.getDeadline()}"/><br />
+        <select name="category">
+            <option th::value="${onePlan.getPlanCategory()}" th:text="${onePlan.getPlanCategory()}">
+            <option value="any">Бытовая</option>
+            <option value="household">Все остальные</option>
+        </select>
+        <button type="submit">Сортировать по срокам выполнения</button>
     <input type="submit" value="Update!"/>
 
 </form>

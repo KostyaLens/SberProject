@@ -15,8 +15,37 @@
         <input type = "radio" value="5" name="rating" /></div>
     <label for="localdate">Дата и время: </label>
     <input type="datetime-local" id="localdate" name="date"/><br />
+
+    <label for="category-select">Категория задачи:</label>
+    <select name="category" id="category-select">
+        <option value="">-Выберите категорию задачи--</option>
+        <option value="any">Бытовая</option>
+        <option value="household">Все остальные</option>
+    </select>
     <button type="submit">Добавить план</button>
 </form>
+
+<form action="/ToDO/sortName" method="get">
+    <button type="submit">Сортировать по названию</button>
+</form>
+
+<form action="/ToDO/sortPriority" method="get">
+    <button type="submit">Сортировать по важности</button>
+</form>
+
+<form action="/ToDO/sortDate" method="get">
+    <button type="submit">Сортировать по срокам выполнения</button>
+</form>
+
+<form action="/ToDO/findCategory" method="get">
+    <select name="category">
+        <option value="any">-Выберите категорию задачи--</option>
+        <option value="any">Бытовая</option>
+        <option value="household">Все остальные</option>
+    </select>
+    <button type="submit">Показать по определённой категории</button>
+</form>
+
 
 <!--<form method="get">-->
 <!--    <button type="submit">Сортировать по важности</button>-->

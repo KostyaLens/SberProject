@@ -19,10 +19,12 @@ public class Plan {
     @Column(nullable = false)
     private LocalDateTime deadline;
     @Column(nullable = false)
-    private boolean completed;
+    private boolean completed = false;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Column(nullable = false)
     private int rating;
+    @Column(nullable = false)
+    private PlanCategory planCategory;
 }

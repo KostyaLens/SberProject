@@ -2,8 +2,10 @@ package org.example.services;
 
 import org.example.Time;
 import org.example.entity.Plan;
+import org.example.entity.PlanCategory;
 import org.example.repository.PlanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,6 +39,21 @@ public class PlanServicesImpl implements PlanServices{
         return planRepository.findAll();
     }
 
+    public List<Plan> sortByName(){
+        return planRepository.findAll(Sort.by("name"));
+    }
+
+    public List<Plan> sortByDate(){
+        return planRepository.findAll(Sort.by("deadline").ascending());
+    }
+
+    public List<Plan> sortByPriority(){
+        return planRepository.findAll(Sort.by("rating").descending());
+    }
+
+    public List<Plan> findAllByPlanCategory(PlanCategory planCategory){
+        return planRepository.findAllByPlanCategory(planCategory);
+    }
     @Override
     @Transactional
     public void update(Plan plan, long id) {

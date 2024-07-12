@@ -11,6 +11,7 @@
 <p th:text="${'Описание ' + onePlan.getDescription()}"></p>
 <p th:text="${'Выполнить до: ' + onePlan.getDeadline()}"></p>
 <p th:text="${'Важность задачи ' + onePlan.getRating()}"></p>
+<p th:text="${'Категрия задачи ' + onePlan.getPlanCategory()}"></p>
 <form th:method="POST" th:action="@{/ToDO/{id}/delete(id=${onePlan.getId()})}">
     <input type="submit" value="Delete"/>
 </form>
