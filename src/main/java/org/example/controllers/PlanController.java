@@ -1,14 +1,11 @@
 package org.example.controllers;
 
-import lombok.extern.slf4j.Slf4j;
 import org.example.entity.Plan;
-import org.example.entity.PlanCategory;
-import org.example.services.PlanServices;
+import org.example.PlanCategory;
 import org.example.services.PlanServicesImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.example.Time;
 
@@ -91,7 +88,7 @@ public class PlanController {
         p.setDescription(description);
         p.setRating(rating);
         p.setDeadline(time.convertStringToDAteTime(dateTime));
-        //
+        //переделать этот костыль на чтото нормальное
         if (category.equals("any")){
             p.setPlanCategory(PlanCategory.ANY);
             System.out.println("asd");
@@ -105,9 +102,9 @@ public class PlanController {
         return "ToDO";
     }
 
-//    @PostMapping
-//    public String addPlan(Model model, Plan plan){
-//        model.addAttribute("plan", new Plan());
+//    @PostMapping()
+//    public String addPlan(@ModelAttribute("plan") Plan plan){
+////        model.addAttribute("plan", new Plan());
 //        planServices.save(plan);
 //        return "ToDO";
 //    }
@@ -128,11 +125,10 @@ public class PlanController {
     public String update(@RequestParam String name,
                          @RequestParam String description,
                          @RequestParam int rating,
-                         @RequestParam(required=false, defaultValue = "false") boolean completed,
+                         @RequestParam() boolean completed,
                          @RequestParam("date") String dateTime,
-                         @PathVariable("id") int id) {
-//        LocalDateTime localDateTime = time.convertStringToDAteTime(dateTime);
-        System.out.println("asdasdsadsa");
+                         @PathVariable("id") int id)
+    {
         Plan p = new Plan();
         p.setCompleted(completed);
         p.setName(name);

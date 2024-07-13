@@ -2,7 +2,7 @@ package org.example.services;
 
 import org.example.Time;
 import org.example.entity.Plan;
-import org.example.entity.PlanCategory;
+import org.example.PlanCategory;
 import org.example.repository.PlanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;

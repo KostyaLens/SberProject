@@ -1,8 +1,7 @@
 package org.example.repository;
 
 import org.example.entity.Plan;
-import org.example.entity.PlanCategory;
-import org.example.services.PlanServices;
+import org.example.PlanCategory;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
