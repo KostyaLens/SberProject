@@ -9,6 +9,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 @Service
@@ -51,13 +52,19 @@ public class PlanServicesImpl implements PlanServices{
         return planRepository.findAll(Sort.by("rating").descending());
     }
 
+    public List<Plan> findByNameContainingOrDescriptionContaining(String name, String description){
+        return planRepository.findByNameContainingOrDescriptionContaining(name, description);
+    }
+
+    public List<Plan> findByNameContainingOrDescriptionContainingAndDeadlineBefore(String name, String description, LocalDateTime deadline){
+        return planRepository.findByNameContainingOrDescriptionContainingAndDeadlineBefore(name, description, deadline);
+    }
     public List<Plan> findAllByPlanCategory(PlanCategory planCategory){
         return planRepository.findAllByPlanCategory(planCategory);
     }
     @Override
     @Transactional
     public void update(Plan plan, long id) {
-        System.out.println("jjjjjdasd");
         plan.setId(id);
         planRepository.save(plan);
     }

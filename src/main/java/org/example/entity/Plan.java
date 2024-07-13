@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "Plans")
+@Table(name = "Plan")
 public class Plan {
     @Column(nullable = false)
     private String name;

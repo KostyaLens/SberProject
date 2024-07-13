@@ -37,6 +37,7 @@
     <button type="submit">Сортировать по срокам выполнения</button>
 </form>
 
+
 <form action="/ToDO/findCategory" method="get">
     <select name="category">
         <option value="any">-Выберите категорию задачи--</option>
@@ -44,6 +45,12 @@
         <option value="household">Все остальные</option>
     </select>
     <button type="submit">Показать по определённой категории</button>
+</form>
+
+<form action="/ToDO/findByKeyWordOrDate" method="get">
+    Ключевое слово: <input type="text" name="name">Время: <label for="localDateTime">Дата и время: </label>
+    <input type="datetime-local" id="localDateTime" name="date"/><br />
+    <button type="submit">Поиск</button>
 </form>
 
 

@@ -61,6 +61,22 @@ public class PlanController {
         return "ToDO";
     }
 
+
+    @GetMapping("/findByKeyWordOrDate")
+    public String findByKeyWordOrDate(
+            Model model,
+            @RequestParam(required = false) String name,
+            @RequestParam(value = "date", required = false, defaultValue = "null") String date)
+    {
+        if (date.equals("null")){
+            model.addAttribute("plan", planServices.findByNameContainingOrDescriptionContaining(name, name));
+        }else{
+            model.addAttribute("plan", planServices.findByNameContainingOrDescriptionContainingAndDeadlineBefore(name, name, time.convertStringToDAteTime(date)));
+        }
+        return "ToDO";
+    }
+
+
     @PostMapping()
     public String addPlan(
             @RequestParam String name,
