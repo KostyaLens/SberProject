@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Table(name = "plan")
 public class Plan {
+
     @NotBlank(message = "Не задано название цели")
     @Column(name="name")
     private String name;

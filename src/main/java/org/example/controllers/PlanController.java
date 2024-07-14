@@ -23,25 +23,25 @@ public class PlanController {
 
     @GetMapping()
     public String viewPlans(Model model) {
-        model.addAttribute("plan", planServices.viewAll());
+        model.addAttribute("plans", planServices.viewAll());
         return "ToDO";
     }
 
     @GetMapping("/sortName")
     public String viewPlansSortName(Model model) {
-        model.addAttribute("plan", planServices.sortByName());
+        model.addAttribute("plans", planServices.sortByName());
         return "ToDO";
     }
 
     @GetMapping("/sortPriority")
     public String viewPlansSortPriority(Model model) {
-        model.addAttribute("plan", planServices.sortByPriority());
+        model.addAttribute("plans", planServices.sortByPriority());
         return "ToDO";
     }
 
     @GetMapping("/sortDate")
     public String viewPlansSortDate(Model model) {
-        model.addAttribute("plan", planServices.sortByDate());
+        model.addAttribute("plans", planServices.sortByDate());
         return "ToDO";
     }
 
@@ -56,7 +56,7 @@ public class PlanController {
         }else {
             planCategory = PlanCategory.HOUSEHOLD;
         }
-        model.addAttribute("plan", planServices.findAllByPlanCategory(planCategory));
+        model.addAttribute("plans", planServices.findAllByPlanCategory(planCategory));
         return "ToDO";
     }
 
@@ -68,9 +68,9 @@ public class PlanController {
             @RequestParam(value = "date", required = false, defaultValue = "null") String date)
     {
         if (date.equals("null")){
-            model.addAttribute("plan", planServices.findByNameContainingOrDescriptionContaining(name, name));
+            model.addAttribute("plans", planServices.findByNameContainingOrDescriptionContaining(name, name));
         }else{
-            model.addAttribute("plan", planServices.findByNameContainingOrDescriptionContainingAndDeadlineBefore(name, name, time.convertStringToDAteTime(date)));
+            model.addAttribute("plans", planServices.findByNameContainingOrDescriptionContainingAndDeadlineBefore(name, name, time.convertStringToDAteTime(date)));
         }
         return "ToDO";
     }
@@ -105,12 +105,12 @@ public class PlanController {
 //    }
 
     @PostMapping()
-    public String addPlan(Model model, Plan plan, BindingResult bindingResult){
+    public String addPlan(@ModelAttribute("plan") Plan plan, BindingResult bindingResult){
 //        if (bindingResult.hasErrors())
 //            return "ToDO";
         planServices.save(plan);
-        var plans = planServices.viewAll();
-        model.addAttribute("plan", plans);
+//        var plans = planServices.viewAll();
+//        model.addAttribute("plan", plans);
         return "ToDO";
     }
 
