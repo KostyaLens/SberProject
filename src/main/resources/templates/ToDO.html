@@ -6,22 +6,30 @@
 </head>
 <body>
 
-<form action="/ToDO" method="post">
-    Название цели: <input type="text" name="name"><br />
-    Описание: <input type="text" step="any" name="description"><br />
-    <div><input type = "radio" value="1" name="rating" /> <input type = "radio"
-             value="2" name="rating" /> <input type = "radio" value="3" name="rating" />
-        <input type = "radio" value="4" name="rating" />
-        <input type = "radio" value="5" name="rating" /></div>
-    <label for="localdate">Дата и время: </label>
-    <input type="datetime-local" id="localdate" name="date"/><br />
+<form th:action="@{/ToDO}" th:method="post" th:object="${plan}">
 
-    <label for="category-select">Категория задачи:</label>
-    <select name="category" id="category-select">
-        <option value="">-Выберите категорию задачи--</option>
-        <option value="any">Бытовая</option>
-        <option value="household">Все остальные</option>
-    </select>
+    <div>
+        <label  for="name">name:</label>
+        <div>
+            <input type="text" th:field="*{name}" id="name"/>
+        </div>
+    </div>
+
+<!--    Название цели: <input type="text" th:field="*{name}"/><br />-->
+<!--    Описание: <input type="text" step="any" th:field="{*description}*"/><br />-->
+<!--    <div><input type = "radio" value="1" th:field="*{rating}" /> <input type = "radio"-->
+<!--             value="2" th:field="*{rating}" /> <input type = "radio" value="3" th:field="*{rating}" />-->
+<!--        <input type = "radio" value="4" th:field="*{rating}" />-->
+<!--        <input type = "radio" value="5" th:field="*{rating}" /></div>-->
+<!--    <label for="localdate">Дата и время: </label>-->
+<!--    <input type="datetime-local" id="localdate" th:field="*{deadline}"/><br />-->
+
+<!--    <label for="category-select">Категория задачи:</label>-->
+<!--    <select th:field="*{category}" id="category-select">-->
+<!--        <option value="">-Выберите категорию задачи&#45;&#45;</option>-->
+<!--        <option value="any">Бытовая</option>-->
+<!--        <option value="household">Все остальные</option>-->
+<!--    </select>-->
     <button type="submit">Добавить план</button>
 </form>
 

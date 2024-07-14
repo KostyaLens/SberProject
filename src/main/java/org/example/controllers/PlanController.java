@@ -74,40 +74,40 @@ public class PlanController {
     }
 
 
-    @PostMapping()
-    public String addPlan(
-            @RequestParam String name,
-            @RequestParam String description,
-            @RequestParam int rating,
-            @RequestParam("date") String dateTime,
-            @RequestParam(value = "category", defaultValue = "any") String category,
-            Model model
-    ) {
-        Plan p = new Plan();
-        p.setName(name);
-        p.setDescription(description);
-        p.setRating(rating);
-        p.setDeadline(time.convertStringToDAteTime(dateTime));
-        //переделать этот костыль на чтото нормальное
-        if (category.equals("any")){
-            p.setPlanCategory(PlanCategory.ANY);
-            System.out.println("asd");
-        }else {
-            p.setPlanCategory(PlanCategory.HOUSEHOLD);
-        }
-        //
-        planServices.save(p);
-        var plan = planServices.viewAll();
-        model.addAttribute("plan", plan);
-        return "ToDO";
-    }
-
 //    @PostMapping()
-//    public String addPlan(@ModelAttribute("plan") Plan plan){
-////        model.addAttribute("plan", new Plan());
-//        planServices.save(plan);
+//    public String addPlan(
+//            @RequestParam String name,
+//            @RequestParam String description,
+//            @RequestParam int rating,
+//            @RequestParam("date") String dateTime,
+//            @RequestParam(value = "category", defaultValue = "any") String category,
+//            Model model
+//    ) {
+//        Plan p = new Plan();
+//        p.setName(name);
+//        p.setDescription(description);
+//        p.setRating(rating);
+//        p.setDeadline(time.convertStringToDAteTime(dateTime));
+//        //переделать этот костыль на чтото нормальное
+//        if (category.equals("any")){
+//            p.setPlanCategory(PlanCategory.ANY);
+//            System.out.println("asd");
+//        }else {
+//            p.setPlanCategory(PlanCategory.HOUSEHOLD);
+//        }
+//        //
+//        planServices.save(p);
+//        var plan = planServices.viewAll();
+//        model.addAttribute("plan", plan);
 //        return "ToDO";
 //    }
+
+    @PostMapping()
+    public String addPlan(@ModelAttribute("plan") Plan plan){
+//        model.addAttribute("plan", new Plan());
+        planServices.save(plan);
+        return "ToDO";
+    }
 
     @GetMapping("/{id}")
     public String show(@PathVariable("id") int id, Model model) {
