@@ -6,7 +6,7 @@
 </head>
 <body>
 
-<form method="post" th:action="@{/ToDO/{id}/edit(id=${onePlan.getId()})}">
+<form th:method="post" th:action="@{/ToDO/{id}/edit(id=${onePlan.getId()})}">
 <!--    Название цели: <input type="text" name="name" ><br/>-->
 <!--    Описание: <input type="text" step="any" name="description"><br/>-->
 <!--    <input type="checkbox" value="true" name="completed">-->

@@ -13,19 +13,17 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "plan")
-public class Plan {
-    @NotBlank(message = "Не задано название цели")
+@Table(name = "ArchivedPlan")
+public class ArchivedPlan {
+
     @Column(name="name")
     private String name;
-    @NotBlank(message = "Отсуствует описание")
+
     @Column(nullable = false)
     private String description;
 
     @Column(nullable = false)
     private LocalDateTime deadline;
-    @Column(nullable = false)
-    private boolean completed = false;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

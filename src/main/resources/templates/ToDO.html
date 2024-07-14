@@ -7,31 +7,35 @@
 <body>
 
 <form th:action="@{/ToDO}" th:method="post" th:object="${plan}">
-
-    <div>
-        <label  for="name">name:</label>
-        <div>
-            <input type="text" th:field="*{name}" id="name"/>
-        </div>
-    </div>
-
-<!--    Название цели: <input type="text" th:field="*{name}"/><br />-->
-<!--    Описание: <input type="text" step="any" th:field="{*description}*"/><br />-->
-<!--    <div><input type = "radio" value="1" th:field="*{rating}" /> <input type = "radio"-->
-<!--             value="2" th:field="*{rating}" /> <input type = "radio" value="3" th:field="*{rating}" />-->
-<!--        <input type = "radio" value="4" th:field="*{rating}" />-->
-<!--        <input type = "radio" value="5" th:field="*{rating}" /></div>-->
-<!--    <label for="localdate">Дата и время: </label>-->
-<!--    <input type="datetime-local" id="localdate" th:field="*{deadline}"/><br />-->
-
-<!--    <label for="category-select">Категория задачи:</label>-->
-<!--    <select th:field="*{category}" id="category-select">-->
-<!--        <option value="">-Выберите категорию задачи&#45;&#45;</option>-->
-<!--        <option value="any">Бытовая</option>-->
-<!--        <option value="household">Все остальные</option>-->
-<!--    </select>-->
+    <label for="name">Название цели: </label>
+    <input type="text" name="name" id="name"/>
+<!--    <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</div>-->
+    <br/>
+    Описание: <input type="text" step="any" name="description"/>
+<!--    <div class="form-error" th:if="${#fields.hasErrors('description')}" th:text="${#fields.errors('description').get(#fields.errors('description').size() - 1)}" ></div><br />-->
+    <div><input type = "radio" value="1" name="rating" /> <input type = "radio"
+             value="2" name="rating" /> <input type = "radio" value="3" name="rating"/>
+        <input type = "radio" value="4" name="rating" />
+        <input type = "radio" value="5" name="rating" />
+<!--        <div  th:if="${#fields.hasErrors('rating')}" th:text="${#fields.errors('rating').get(#fields.errors('rating').size() - 1)}" ></div></div>-->
+    <label for="localdate">Дата и время: </label>
+    <input type="datetime-local" id="localdate" name="deadline"/>
+<!--    <div  th:if="${#fields.hasErrors('deadline')}" th:text="${#fields.errors('deadline').get(#fields.errors('deadline').size() - 1)}" ></div><br />-->
+    <label for="category-select">Категория задачи:</label>
+    <select name="planCategory" id="category-select">
+        <option value="">-Выберите категорию задачи--</option>
+        <option value='HOUSEHOLD'>Бытовая</option>
+        <option value='ANY'>Все остальные</option>
+    </select>
     <button type="submit">Добавить план</button>
 </form>
+
+<!--<form th:action="@{/ToDO}" th:method="post" th:object="${plan}">-->
+<!--    <label for="name">Enter name: </label>-->
+<!--    <input type="text" th:field="*{name}" id="name"/>-->
+<!--    <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</div>-->
+<!--    <br/>-->
+<!--</form>-->
 
 <form action="/ToDO/sortName" method="get">
     <button type="submit">Сортировать по названию</button>

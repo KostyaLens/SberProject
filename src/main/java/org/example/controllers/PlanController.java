@@ -4,8 +4,10 @@ import org.example.entity.Plan;
 import org.example.PlanCategory;
 import org.example.services.PlanServicesImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.example.Time;
 
@@ -103,9 +105,12 @@ public class PlanController {
 //    }
 
     @PostMapping()
-    public String addPlan(@ModelAttribute("plan") Plan plan){
-//        model.addAttribute("plan", new Plan());
+    public String addPlan(Model model, Plan plan, BindingResult bindingResult){
+//        if (bindingResult.hasErrors())
+//            return "ToDO";
         planServices.save(plan);
+        var plans = planServices.viewAll();
+        model.addAttribute("plan", plans);
         return "ToDO";
     }
 
