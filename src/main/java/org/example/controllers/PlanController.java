@@ -106,8 +106,8 @@ public class PlanController {
 
     @PostMapping()
     public String addPlan(@ModelAttribute("plan") Plan plan, BindingResult bindingResult){
-//        if (bindingResult.hasErrors())
-//            return "ToDO";
+        if (bindingResult.hasErrors())
+            return "ToDO";
         planServices.save(plan);
 //        var plans = planServices.viewAll();
 //        model.addAttribute("plan", plans);
