@@ -24,24 +24,28 @@ public class PlanController {
     @GetMapping()
     public String viewPlans(Model model) {
         model.addAttribute("plans", planServices.viewAll());
+        model.addAttribute("plan", new Plan());
         return "ToDO";
     }
 
     @GetMapping("/sortName")
     public String viewPlansSortName(Model model) {
         model.addAttribute("plans", planServices.sortByName());
+        model.addAttribute("plan", new Plan());
         return "ToDO";
     }
 
     @GetMapping("/sortPriority")
     public String viewPlansSortPriority(Model model) {
         model.addAttribute("plans", planServices.sortByPriority());
+        model.addAttribute("plan", new Plan());
         return "ToDO";
     }
 
     @GetMapping("/sortDate")
     public String viewPlansSortDate(Model model) {
         model.addAttribute("plans", planServices.sortByDate());
+        model.addAttribute("plan", new Plan());
         return "ToDO";
     }
 
@@ -57,6 +61,7 @@ public class PlanController {
             planCategory = PlanCategory.HOUSEHOLD;
         }
         model.addAttribute("plans", planServices.findAllByPlanCategory(planCategory));
+        model.addAttribute("plan", new Plan());
         return "ToDO";
     }
 
@@ -67,6 +72,7 @@ public class PlanController {
             @RequestParam(required = false) String name,
             @RequestParam(value = "date", required = false, defaultValue = "null") String date)
     {
+        model.addAttribute("plan", new Plan());
         if (date.equals("null")){
             model.addAttribute("plans", planServices.findByNameContainingOrDescriptionContaining(name, name));
         }else{
@@ -105,12 +111,12 @@ public class PlanController {
 //    }
 
     @PostMapping()
-    public String addPlan(@ModelAttribute("plan") Plan plan, BindingResult bindingResult){
+    public String addPlan(@Valid @ModelAttribute("plan") Plan plan, BindingResult bindingResult, Model model){
         if (bindingResult.hasErrors())
             return "ToDO";
+//        model.addAttribute("plan", new Plan());
         planServices.save(plan);
-//        var plans = planServices.viewAll();
-//        model.addAttribute("plan", plans);
+
         return "ToDO";
     }
 

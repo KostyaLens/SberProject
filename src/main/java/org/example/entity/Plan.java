@@ -20,20 +20,20 @@ public class Plan {
     @Column(name="name")
     private String name;
     @NotBlank(message = "Отсуствует описание")
-    @Column(nullable = false)
+    @Column()
     private String description;
 
-    @Column(nullable = false)
+    @Column()
     private LocalDateTime deadline;
-    @Column(nullable = false)
+    @Column()
     private boolean completed = false;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(nullable = false)
+    @Column()
     private int rating;
 
-    @Column(nullable = false)
+    @Column()
     private PlanCategory planCategory;
 }
