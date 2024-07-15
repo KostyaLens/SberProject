@@ -2,6 +2,8 @@ package org.example.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,24 +18,27 @@ import java.time.LocalDateTime;
 @Table(name = "plan")
 public class Plan {
 
-    @NotBlank(message = "Не задано название цели")
+    @NotBlank(message = "Не определено название цели")
     @Column(name="name")
     private String name;
-    @NotBlank(message = "Отсуствует описание")
-    @Column()
+    @NotBlank(message = "Не определенно описание цели")
+    @Column
     private String description;
 
-    @Column()
+    @Column
+    @NotNull(message = "Не определён срок до которого нужно выполнить поставленую цель")
     private LocalDateTime deadline;
-    @Column()
+    @Column
     private boolean completed = false;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column()
+    @Column
+    @NotNull(message = "Не определена важность задачи")
     private int rating;
 
-    @Column()
+    @Column
+    @NotNull(message = "Не определена категория цели")
     private PlanCategory planCategory;
 }

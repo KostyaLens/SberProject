@@ -25,6 +25,7 @@ public class PlanController {
     public String viewPlans(Model model) {
         model.addAttribute("plans", planServices.viewAll());
         model.addAttribute("plan", new Plan());
+//        model.addAttribute("planAddedSuccessfull", false);
         return "ToDO";
     }
 
@@ -32,6 +33,7 @@ public class PlanController {
     public String viewPlansSortName(Model model) {
         model.addAttribute("plans", planServices.sortByName());
         model.addAttribute("plan", new Plan());
+//        model.addAttribute("planAddedSuccessfull", false);
         return "ToDO";
     }
 
@@ -39,6 +41,7 @@ public class PlanController {
     public String viewPlansSortPriority(Model model) {
         model.addAttribute("plans", planServices.sortByPriority());
         model.addAttribute("plan", new Plan());
+//        model.addAttribute("planAddedSuccessfull", false);
         return "ToDO";
     }
 
@@ -46,6 +49,7 @@ public class PlanController {
     public String viewPlansSortDate(Model model) {
         model.addAttribute("plans", planServices.sortByDate());
         model.addAttribute("plan", new Plan());
+//        model.addAttribute("planAddedSuccessfull", false);
         return "ToDO";
     }
 
@@ -55,6 +59,7 @@ public class PlanController {
             @RequestParam String category)
     {
         PlanCategory planCategory;
+//        model.addAttribute("planAddedSuccessfull", false);
         if (category.equals("any")){
             planCategory = PlanCategory.ANY;
         }else {
@@ -73,6 +78,7 @@ public class PlanController {
             @RequestParam(value = "date", required = false, defaultValue = "null") String date)
     {
         model.addAttribute("plan", new Plan());
+//        model.addAttribute("planAddedSuccessfull", false);
         if (date.equals("null")){
             model.addAttribute("plans", planServices.findByNameContainingOrDescriptionContaining(name, name));
         }else{
@@ -103,6 +109,7 @@ public class PlanController {
 //        }else {
 //            p.setPlanCategory(PlanCategory.HOUSEHOLD);
 //        }
+//        }ы
 //        //
 //        planServices.save(p);
 //        var plan = planServices.viewAll();
@@ -112,10 +119,13 @@ public class PlanController {
 
     @PostMapping()
     public String addPlan(@Valid @ModelAttribute("plan") Plan plan, BindingResult bindingResult, Model model){
-        if (bindingResult.hasErrors())
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("planAddedSuccessfully", false);
             return "ToDO";
+        }
 //        model.addAttribute("plan", new Plan());
         planServices.save(plan);
+        model.addAttribute("planAddedSuccessfully", true);
 
         return "ToDO";
     }
