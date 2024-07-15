@@ -1,21 +1,115 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en" xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--  <meta charset="UTF-8">-->
+<!--  <title>o</title>-->
+<!--</head>-->
+<!--<body>-->
+
+<!--<div>-->
+<!--<p th:text="${'название цели: ' + onePlan.getName()}"></p>-->
+<!--<p th:text="${'Описание ' + onePlan.getDescription()}"></p>-->
+<!--<p th:text="${'Выполнить до: ' + onePlan.getDeadline()}"></p>-->
+<!--<p th:text="${'Важность задачи ' + onePlan.getRating()}"></p>-->
+<!--<p th:text="${'Категрия задачи ' + onePlan.getPlanCategory()}"></p>-->
+<!--<form th:method="POST" th:action="@{/ToDO/{id}/delete(id=${onePlan.getId()})}">-->
+<!--    <input type="submit" value="Delete"/>-->
+<!--</form>-->
+<!--<a th:href="@{/ToDO/{id}/edit(id=${onePlan.getId()})}">Edit</a>-->
+<!--</div>-->
+<!--</body>-->
+<!--</html>-->
+
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>o</title>
+    <meta charset="UTF-8">
+    <title>Детали цели</title>
+    <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      width: 50%;
+      padding: 20px;
+      background: white;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      border-radius: 10px;
+      text-align: center;
+    }
+    .container h1 {
+      margin-bottom: 20px;
+      color: #7B68EE;
+    }
+    .detail-item {
+      margin-bottom: 15px;
+      font-size: 1.2em;
+    }
+    .detail-item span {
+      font-weight: bold;
+    }
+    .button-group {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .button-group button, .button-group a {
+      padding: 10px 15px;
+      background: #7B68EE;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1em;
+      text-decoration: none;
+    }
+    .button-group button:hover, .button-group a:hover {
+      background-color: #6a5acd;
+    }
+    .button-group button:active, .button-group a:active {
+      background-color: #5a48b1;
+    }
+    .button-group a {
+      display: inline-block;
+    }
+    .form-error {
+      color: red;
+      font-size: 0.875em;
+    }
+  </style>
 </head>
 <body>
-
-<div>
-<p th:text="${'название цели: ' + onePlan.getName()}"></p>
-<p th:text="${'Описание ' + onePlan.getDescription()}"></p>
-<p th:text="${'Выполнить до: ' + onePlan.getDeadline()}"></p>
-<p th:text="${'Важность задачи ' + onePlan.getRating()}"></p>
-<p th:text="${'Категрия задачи ' + onePlan.getPlanCategory()}"></p>
-<form th:method="POST" th:action="@{/ToDO/{id}/delete(id=${onePlan.getId()})}">
-    <input type="submit" value="Delete"/>
-</form>
-<a th:href="@{/ToDO/{id}/edit(id=${onePlan.getId()})}">Edit</a>
+<div class="container">
+    <h1>Детали цели</h1>
+    <div class="detail-item">
+        <span>Название цели:</span> <p th:text="${onePlan.getName()}"></p>
+    </div>
+    <div class="detail-item">
+        <span>Описание:</span> <p th:text="${onePlan.getDescription()}"></p>
+    </div>
+    <div class="detail-item">
+        <span>Выполнить до:</span> <p th:text="${onePlan.getDeadline()}"></p>
+    </div>
+    <div class="detail-item">
+        <span>Важность задачи:</span> <p th:text="${onePlan.getRating()}"></p>
+    </div>
+    <div class="detail-item">
+        <span>Категория задачи:</span> <p th:text="${onePlan.getPlanCategory()}"></p>
+    </div>
+    <div class="button-group">
+        <form th:method="POST" th:action="@{/ToDO/{id}/delete(id=${onePlan.getId()})}">
+            <button type="submit">Удалить</button>
+        </form>
+        <a th:href="@{/ToDO/{id}/edit(id=${onePlan.getId()})}">Редактировать</a>
+    </div>
 </div>
 </body>
 </html>

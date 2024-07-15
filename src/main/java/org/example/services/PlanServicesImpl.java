@@ -1,6 +1,5 @@
 package org.example.services;
 
-import org.example.Time;
 import org.example.entity.Plan;
 import org.example.PlanCategory;
 import org.example.repository.PlanRepository;
@@ -16,7 +15,6 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public class PlanServicesImpl implements PlanServices{
     private final PlanRepository planRepository;
-    private final Time time = new Time();
     @Autowired
     public PlanServicesImpl(PlanRepository planRepository) {
         this.planRepository = planRepository;
