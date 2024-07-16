@@ -2,60 +2,76 @@ package org.example.controllers;
 
 import org.example.entity.Plan;
 import org.example.PlanCategory;
+import org.example.entity.User;
 import org.example.services.ArchivedPlanImpl;
 import org.example.services.PlanServicesImpl;
+import org.example.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import jakarta.validation.Valid;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/ToDO")
 public class PlanController {
+
+
+    private final UserService userService;
     private final PlanServicesImpl planServices;
     private final ArchivedPlanImpl archivedPlan;
 
     @Autowired
-    public PlanController(PlanServicesImpl planServices, ArchivedPlanImpl archivedPlan) {
+    public PlanController(UserService userService, PlanServicesImpl planServices, ArchivedPlanImpl archivedPlan) {
+        this.userService = userService;
         this.planServices = planServices;
         this.archivedPlan = archivedPlan;
     }
 
     @GetMapping()
-    public String viewPlans(Model model) {
-        model.addAttribute("plans", planServices.viewAll());
+    public String viewPlans(Model model, @AuthenticationPrincipal UserDetails userDetails) {
+        User user = userService.findByUsername(userDetails.getUsername()).orElseThrow(() -> new RuntimeException("User not found"));
+        model.addAttribute("plans", planServices.viewAll(user));
         model.addAttribute("plan", new Plan());
         return "ToDO";
     }
 
     @GetMapping("/archived")
-    public String viewPlansArchived(Model model) {
-        model.addAttribute("plans", archivedPlan.viewAll());
+    public String viewPlansArchived(Model model, @AuthenticationPrincipal UserDetails userDetails) {
+        User user = userService.findByUsername(userDetails.getUsername()).orElseThrow(() -> new RuntimeException("User not found"));
+        model.addAttribute("plans", archivedPlan.viewAll(user));
         model.addAttribute("plan", new Plan());
         return "ToDO";
     }
 
     @GetMapping("/sortName")
-    public String viewPlansSortName(Model model) {
-        model.addAttribute("plans", planServices.sortByName());
+    public String viewPlansSortName(Model model, @AuthenticationPrincipal UserDetails userDetails) {
+        User user = userService.findByUsername(userDetails.getUsername()).orElseThrow(() -> new RuntimeException("User not found"));
+        model.addAttribute("plans", planServices.sortByName(user));
         model.addAttribute("plan", new Plan());
         return "ToDO";
     }
 
     @GetMapping("/sortPriority")
-    public String viewPlansSortPriority(Model model) {
-        model.addAttribute("plans", planServices.sortByPriority());
+    public String viewPlansSortPriority(Model model, @AuthenticationPrincipal UserDetails userDetails) {
+        User user = userService.findByUsername(userDetails.getUsername()).orElseThrow(() -> new RuntimeException("User not found"));
+        model.addAttribute("plans", planServices.sortByPriority(user));
         model.addAttribute("plan", new Plan());
         return "ToDO";
     }
 
     @GetMapping("/sortDate")
-    public String viewPlansSortDate(Model model) {
-        model.addAttribute("plans", planServices.sortByDate());
+    public String viewPlansSortDate(Model model, @AuthenticationPrincipal UserDetails userDetails) {
+        User user = userService.findByUsername(userDetails.getUsername()).orElseThrow(() -> new RuntimeException("User not found"));
+        model.addAttribute("plans", planServices.sortByDate(user));
         model.addAttribute("plan", new Plan());
         return "ToDO";
     }
@@ -63,7 +79,8 @@ public class PlanController {
     @GetMapping("/findCategory")
     public String findPlansCategory(
             Model model,
-            @RequestParam String category)
+            @RequestParam String category,
+            @AuthenticationPrincipal UserDetails userDetails)
     {
         PlanCategory planCategory;
         if (category.equals("any")){
@@ -71,7 +88,8 @@ public class PlanController {
         }else {
             planCategory = PlanCategory.HOUSEHOLD;
         }
-        model.addAttribute("plans", planServices.findAllByPlanCategory(planCategory));
+        User user = userService.findByUsername(userDetails.getUsername()).orElseThrow(() -> new RuntimeException("User not found"));
+        model.addAttribute("plans", planServices.findByPlanCategory(planCategory, user));
         model.addAttribute("plan", new Plan());
         return "ToDO";
     }
@@ -81,57 +99,29 @@ public class PlanController {
     public String findByKeyWordOrDate(
             Model model,
             @RequestParam(required = false) String name,
-            @RequestParam(required = false) LocalDateTime date)
+            @RequestParam(required = false) LocalDateTime date,
+            @AuthenticationPrincipal UserDetails userDetails)
 
     {
+        User user = userService.findByUsername(userDetails.getUsername()).orElseThrow(() -> new RuntimeException("User not found"));
         model.addAttribute("plan", new Plan());
         if (date == null){
-            model.addAttribute("plans", planServices.findByNameContainingOrDescriptionContaining(name, name));
-            model.addAttribute("archivedPlans", archivedPlan.findByNameContainingOrDescriptionContaining(name, name));
-            System.out.println("и тут я был");
+            model.addAttribute("plans", planServices.findByNameContainingOrDescriptionContaining(name, name, user));
+            model.addAttribute("archivedPlans", archivedPlan.findByNameContainingOrDescriptionContaining(name, name, user));
         }else{
-            model.addAttribute("plans", planServices.findByNameContainingOrDescriptionContainingAndDeadlineBefore(name, name, date));
-            model.addAttribute("archivedPlans", archivedPlan.findByNameContainingOrDescriptionContainingAndDeadlineBefore(name, name, date));
+            model.addAttribute("plans", planServices.findByNameContainingOrDescriptionContainingAndDeadlineBefore(name, name, date, user));
+            model.addAttribute("archivedPlans", archivedPlan.findByNameContainingOrDescriptionContainingAndDeadlineBefore(name, name, date, user));
         }
         return "ToDO";
     }
 
-
-//    @PostMapping()
-//    public String addPlan(
-//            @RequestParam String name,
-//            @RequestParam String description,
-//            @RequestParam int rating,
-//            @RequestParam("date") String dateTime,
-//            @RequestParam(value = "category", defaultValue = "any") String category,
-//            Model model
-//    ) {
-//        Plan p = new Plan();
-//        p.setName(name);
-//        p.setDescription(description);
-//        p.setRating(rating);
-//        p.setDeadline(time.convertStringToDAteTime(dateTime));
-//        //переделать этот костыль на чтото нормальное
-//        if (category.equals("any")){
-//            p.setPlanCategory(PlanCategory.ANY);
-//            System.out.println("asd");
-//        }else {
-//            p.setPlanCategory(PlanCategory.HOUSEHOLD);
-//        }
-//        }ы
-//        //
-//        planServices.save(p);
-//        var plan = planServices.viewAll();
-//        model.addAttribute("plan", plan);
-//        return "ToDO";
-//    }
-
-
     @PostMapping()
-    public String addPlan(@Valid @ModelAttribute("plan") Plan plan, BindingResult bindingResult, Model model){
+    public String addPlan(@Valid @ModelAttribute("plan") Plan plan, BindingResult bindingResult, Model model, @AuthenticationPrincipal UserDetails userDetails){
         if (bindingResult.hasErrors()) {
             return "ToDO";
         }
+        User user = userService.findByUsername(userDetails.getUsername()).orElseThrow(() -> new RuntimeException("User not found"));
+        plan.setUser(user);
         planServices.save(plan);
         return "redirect:/ToDO";
     }
@@ -147,24 +137,6 @@ public class PlanController {
         model.addAttribute("onePlan", planServices.findById(id));
         return "edit";
     }
-
-//    @PostMapping("/{id}/edit")
-//    public String update(@RequestParam String name,
-//                         @RequestParam String description,
-//                         @RequestParam int rating,
-//                         @RequestParam() boolean completed,
-//                         @RequestParam("date") String dateTime,
-//                         @PathVariable("id") int id)
-//    {
-//        Plan p = new Plan();
-//        p.setCompleted(completed);
-//        p.setName(name);
-//        p.setDescription(description);
-//        p.setRating(rating);
-//        p.setDeadline(time.convertStringToDAteTime(dateTime));
-//        planServices.update(p, id);
-//        return "redirect:/ToDO";
-//    }
 
     @PostMapping("/{id}/completed")
     private String completed(@PathVariable("id") long id){
@@ -184,23 +156,10 @@ public class PlanController {
 
     @PostMapping("/{id}/archived")
     public String archivingPlan(@PathVariable("id") long id){
-//        if (bindingResult.hasErrors()) {
-//            return "/edit";
-//        }
         archivedPlan.save(planServices.findById(id));
-        System.out.println("я засейвил");
         planServices.delete(id);
         return "redirect:/ToDO";
     }
-
-//    @GetMapping(params = {"sort"})
-//    public String sort(Model model){
-//        planServices.sorst();
-//        var plan = planServices.allPlans();
-//        model.addAttribute("plan", plan);
-//        System.out.println("Ч тут");
-//        return "ToDO.html";
-//    }
 
     @PostMapping("/{id}/delete")
     public String delete(@PathVariable("id") long id) {
@@ -209,10 +168,4 @@ public class PlanController {
         return "redirect:/ToDO";
     }
 
-//    @GetMapping("/{id}/delete")
-//    public String delete(@PathVariable("id") long id) {
-//        System.out.println(id);
-//        planServices.delete(id);
-//        return "redirect:/ToDO";
-//    }
 }

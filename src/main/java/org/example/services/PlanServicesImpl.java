@@ -2,6 +2,7 @@ package org.example.services;
 
 import org.example.entity.Plan;
 import org.example.PlanCategory;
+import org.example.entity.User;
 import org.example.repository.PlanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -33,32 +34,35 @@ public class PlanServicesImpl implements PlanServices{
     }
 
     @Override
-
     public List<Plan> viewAll() {
-        return planRepository.findAll();
+        return null;
     }
 
-    public List<Plan> sortByName(){
-        return planRepository.findAll(Sort.by("name"));
+    public List<Plan> viewAll(User user) {
+        return planRepository.findByUser(user);
     }
 
-    public List<Plan> sortByDate(){
-        return planRepository.findAll(Sort.by("deadline").ascending());
+    public List<Plan> sortByName(User user){
+        return planRepository.findByUserOrderByName(user);
     }
 
-    public List<Plan> sortByPriority(){
-        return planRepository.findAll(Sort.by("rating").descending());
+    public List<Plan> sortByDate(User user){
+        return planRepository.findByUserOrderByDeadline(user);
     }
 
-    public List<Plan> findByNameContainingOrDescriptionContaining(String name, String description){
-        return planRepository.findByNameContainingOrDescriptionContaining(name, description);
+    public List<Plan> sortByPriority(User user){
+        return planRepository.findByUserOrderByRatingDesc(user);
     }
 
-    public List<Plan> findByNameContainingOrDescriptionContainingAndDeadlineBefore(String name, String description, LocalDateTime deadline){
-        return planRepository.findByNameContainingOrDescriptionContainingAndDeadlineBefore(name, description, deadline);
+    public List<Plan> findByNameContainingOrDescriptionContaining(String name, String description, User user){
+        return planRepository.findByNameContainingOrDescriptionContaining(name, description, user);
     }
-    public List<Plan> findAllByPlanCategory(PlanCategory planCategory){
-        return planRepository.findAllByPlanCategory(planCategory);
+
+    public List<Plan> findByNameContainingOrDescriptionContainingAndDeadlineBefore(String name, String description, LocalDateTime deadline, User user){
+        return planRepository.findByNameContainingOrDescriptionContainingAndDeadlineBefore(name, description, deadline, user);
+    }
+    public List<Plan> findByPlanCategory(PlanCategory planCategory, User user){
+        return planRepository.findByPlanCategoryAndUser(planCategory, user);
     }
     @Override
     @Transactional

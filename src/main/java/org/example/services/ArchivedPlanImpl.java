@@ -2,6 +2,7 @@ package org.example.services;
 
 import org.example.entity.ArchivedPlan;
 import org.example.entity.Plan;
+import org.example.entity.User;
 import org.example.repository.ArchivedPlanRepository;
 import org.example.repository.PlanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,6 @@ public class ArchivedPlanImpl{
         planRepository.save(plan);
     }
 
-
     public void save(Plan plan) {
         ArchivedPlan plan1 = new ArchivedPlan();
         plan1.setName(plan.getName());
@@ -31,21 +31,19 @@ public class ArchivedPlanImpl{
         plan1.setRating(plan.getRating());
         plan1.setDeadline(plan.getDeadline());
         plan1.setDescription(plan.getDescription());
-        System.out.println("eeeeee");
+        plan1.setUser(plan.getUser());
         save(plan1);
     }
 
-
-    public List<ArchivedPlan> viewAll() {
-        return planRepository.findAll();
+    public List<ArchivedPlan> viewAll(User user) {
+        return planRepository.findByUser(user);
     }
 
-
-    public List<ArchivedPlan> findByNameContainingOrDescriptionContaining(String name, String description){
-        return planRepository.findByNameContainingOrDescriptionContaining(name, description);
+    public List<ArchivedPlan> findByNameContainingOrDescriptionContaining(String name, String description, User user){
+        return planRepository.findByNameContainingOrDescriptionContaining(name, description, user);
     }
 
-    public List<ArchivedPlan> findByNameContainingOrDescriptionContainingAndDeadlineBefore(String name, String description, LocalDateTime deadline){
-        return planRepository.findByNameContainingOrDescriptionContainingAndDeadlineBefore(name, description, deadline);
+    public List<ArchivedPlan> findByNameContainingOrDescriptionContainingAndDeadlineBefore(String name, String description, LocalDateTime deadline, User user){
+        return planRepository.findByNameContainingOrDescriptionContainingAndDeadlineBefore(name, description, deadline, user);
     }
 }

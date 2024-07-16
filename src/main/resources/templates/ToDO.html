@@ -397,6 +397,7 @@
             width: 48%;
         }
         .plans-list {
+            width: 95%;
             display: flex;
             flex-direction: column;
         }
@@ -484,6 +485,7 @@
 </head>
 <body>
 <div class="header">ToDO</div>
+<a th:href="@{/logout}">Выйти</a>
 <div class="main-content">
     <div class="container">
         <form th:action="@{/ToDO}" th:method="post" th:object="${plan}" id="plan-form">
@@ -540,7 +542,7 @@
                     <button type="submit">Сортировать по срокам выполнения</button>
                 </form>
 
-                <form action="@{/ToDO/archived}" method="get">
+                <form action="/ToDO/archived" method="get">
                     <button type="submit">Показать список архивированых задач"</button>
                 </form>
 

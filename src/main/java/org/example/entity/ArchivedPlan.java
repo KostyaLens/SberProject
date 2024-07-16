@@ -32,4 +32,8 @@ public class ArchivedPlan {
 
     @Column
     private PlanCategory planCategory;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 }
