@@ -4,7 +4,6 @@ import org.example.entity.ArchivedPlan;
 import org.example.entity.Plan;
 import org.example.entity.User;
 import org.example.repository.ArchivedPlanRepository;
-import org.example.repository.PlanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

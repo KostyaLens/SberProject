@@ -1,11 +1,8 @@
 package org.example.services;
 
-import org.example.entity.Plan;
-import org.example.PlanCategory;
-import org.example.entity.User;
+import org.example.entity.*;
 import org.example.repository.PlanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -75,5 +72,33 @@ public class PlanServicesImpl implements PlanServices{
     @Transactional
     public void delete(long id) {
         planRepository.deleteById(id);
+    }
+
+    public List<Plan> findByDateTimeEndPlanBefore(LocalDateTime now){
+        return planRepository.findByDateTimeEndPlanBefore(now);
+    }
+
+    public List<Plan> findByUserOrderByCompleted(User user){
+        return planRepository.findByUserOrderByCompleted(user);
+    }
+    public LocalDateTime plusTime(Frequency frequency){
+        switch (frequency) {
+            case ONEMINUTE:
+                return LocalDateTime.now().plusMinutes(1);
+
+            case ONEHOUR:
+                return LocalDateTime.now().plusHours(1);
+            case ONEDAY:
+                return LocalDateTime.now().plusDays(1);
+            case ONEWEEK:
+                return LocalDateTime.now().plusWeeks(1);
+            case ONEMOUTH:
+                return LocalDateTime.now().plusMonths(1);
+            case SIXMOUTH:
+                return LocalDateTime.now().plusMonths(6);
+            case ONEYEAR:
+                return LocalDateTime.now().plusYears(1);
+        }
+        return LocalDateTime.now();
     }
 }

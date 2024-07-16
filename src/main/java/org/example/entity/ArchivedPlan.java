@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.example.PlanCategory;
 
 import java.time.LocalDateTime;
 
@@ -12,7 +11,7 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "ArchivedPlan")
+@Table(name = "archivedPlan")
 public class ArchivedPlan {
 
     @Column(name="name")
@@ -33,7 +32,7 @@ public class ArchivedPlan {
     @Column
     private PlanCategory planCategory;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "user_id")
     private User user;
 }

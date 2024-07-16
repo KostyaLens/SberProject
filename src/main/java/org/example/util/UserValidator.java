@@ -22,7 +22,7 @@ public class UserValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         User user = (User) target;
-        if (userService.findByUsername(user.getUsername()).isPresent()) {
+        if (userService.findByEmail(user.getEmail()).isPresent()) {
             errors.rejectValue("username", "", "Человек с таким именем уже зарегестрирован");
         }
     }

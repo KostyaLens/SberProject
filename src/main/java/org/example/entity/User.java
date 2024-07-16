@@ -1,6 +1,7 @@
 package org.example.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,7 +19,8 @@ public class User {
     private Long id;
 
     @Column(nullable = false, unique = true)
-    private String username;
+    @Email
+    private String email;
 
     @Column(nullable = false)
     private String password;
@@ -31,5 +33,4 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ArchivedPlan> archivedPlans;
-
 }

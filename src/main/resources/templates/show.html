@@ -1,25 +1,3 @@
-<!--<!DOCTYPE html>-->
-<!--<html lang="en" xmlns:th="http://www.thymeleaf.org">-->
-<!--<head>-->
-<!--  <meta charset="UTF-8">-->
-<!--  <title>o</title>-->
-<!--</head>-->
-<!--<body>-->
-
-<!--<div>-->
-<!--<p th:text="${'название цели: ' + onePlan.getName()}"></p>-->
-<!--<p th:text="${'Описание ' + onePlan.getDescription()}"></p>-->
-<!--<p th:text="${'Выполнить до: ' + onePlan.getDeadline()}"></p>-->
-<!--<p th:text="${'Важность задачи ' + onePlan.getRating()}"></p>-->
-<!--<p th:text="${'Категрия задачи ' + onePlan.getPlanCategory()}"></p>-->
-<!--<form th:method="POST" th:action="@{/ToDO/{id}/delete(id=${onePlan.getId()})}">-->
-<!--    <input type="submit" value="Delete"/>-->
-<!--</form>-->
-<!--<a th:href="@{/ToDO/{id}/edit(id=${onePlan.getId()})}">Edit</a>-->
-<!--</div>-->
-<!--</body>-->
-<!--</html>-->
-
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -90,25 +68,30 @@
 <div class="container">
     <h1>Детали цели</h1>
     <div class="detail-item">
-        <span>Название цели:</span> <p th:text="${onePlan.getName()}"></p>
+        <span>Название цели:</span> <p th:text="${onePlan.name}"></p>
     </div>
     <div class="detail-item">
-        <span>Описание:</span> <p th:text="${onePlan.getDescription()}"></p>
+        <span>Описание:</span> <p th:text="${onePlan.description}"></p>
     </div>
     <div class="detail-item">
-        <span>Выполнить до:</span> <p th:text="${onePlan.getDeadline()}"></p>
+        <span>Выполнить до:</span> <p th:text="${onePlan.deadline}"></p>
     </div>
     <div class="detail-item">
-        <span>Важность задачи:</span> <p th:text="${onePlan.getRating()}"></p>
+        <span>Важность задачи:</span> <p th:text="${onePlan.rating}"></p>
     </div>
     <div class="detail-item">
-        <span>Категория задачи:</span> <p th:text="${onePlan.getPlanCategory()}"></p>
+        <span>Категория задачи:</span> <p th:text="${onePlan.planCategory}"></p>
+    </div>
+    <div class="detail-item">
+        <span>Цель выполнена:</span>
+        <p th:if="${onePlan.completed}" th:text="'Выполнена'"></p>
+        <p th:if="${!onePlan.completed}" th:text="'Не выполнена'"></p>
     </div>
     <div class="button-group">
-        <form th:method="POST" th:action="@{/ToDO/{id}/delete(id=${onePlan.getId()})}">
+        <form th:method="post" th:action="@{/ToDO/{id}/delete(id=${onePlan.id})}">
             <button type="submit">Удалить</button>
         </form>
-        <a th:href="@{/ToDO/{id}/edit(id=${onePlan.getId()})}">Редактировать</a>
+        <a th:href="@{/ToDO/{id}/edit(id=${onePlan.id})}">Редактировать</a>
     </div>
 </div>
 </body>

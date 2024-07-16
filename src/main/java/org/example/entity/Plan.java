@@ -6,7 +6,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.example.PlanCategory;
 
 import java.time.LocalDateTime;
 
@@ -41,6 +40,10 @@ public class Plan {
     @NotNull(message = "Не определена категория цели")
     private PlanCategory planCategory;
 
+    @Column
+    private LocalDateTime dateTimeEndPlan;
+    @Column
+    private Frequency frequency;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;

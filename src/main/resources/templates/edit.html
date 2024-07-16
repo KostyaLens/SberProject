@@ -161,7 +161,7 @@
         </div>
         <div class="form-group">
             <label for="localdate">Дата и время:</label>
-            <input type="datetime-local" id="localdate" th:field="*{deadline}" name="date" th:value="${onePlan.getDeadline()}"/>
+            <input type="datetime-local" id="localdate" th:field="*{deadline}"  th:value="${onePlan.getDeadline()}"/>
             <div class="form-error" th:if="${#fields.hasErrors('deadline')}" th:text="${#fields.errors('deadline').get(#fields.errors('deadline').size() - 1)}"></div>
         </div>
         <div class="form-group">
@@ -177,6 +177,10 @@
             <input type="checkbox" id="completed" th:field="*{completed}" th:checked="${onePlan.isCompleted()}"/>
             <label for="completed">Завершить цель</label>
         </div>
+<!--        <div>-->
+<!--            <a type="submit" th:field="*{frequency}" value="${onePlan.getFrequency}" th:text="Данная цель повторяется" th:if="${plan.getFrequency() == null}">-->
+<!--        </div>-->
+
         <input type="submit" value="Обновить" class="submit-button"/>
     </form>
 </div>
