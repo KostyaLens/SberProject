@@ -339,7 +339,7 @@
             </a>
         </div>
     </div>
-    <div th:each="archivedPlan : ${archivedPlans}">
+    <div th:each="archivedPlan : ${archivedPlans}" class="plan-item">
         <a th:href="@{/ToDO/{id}/arch(id=${archivedPlan.getId()})}"><span th:text="${archivedPlan.getName()}">plan</span></a>
     </div>
 </div>

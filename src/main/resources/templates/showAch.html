@@ -83,7 +83,7 @@
     <span>Категория задачи:</span> <p th:text="${onePlan.planCategory}"></p>
   </div>
   <div class="button-group">
-    <form th:method="post" th:action="@{/ToDO/{id}/delete(id=${onePlan.id})}">
+    <form th:method="post" th:action="@{/ToDO/{id}/deleteArch(id=${onePlan.id})}">
       <button type="submit">Удалить</button>
     </form>
     <a th:href="@{/ToDO}">На главную</a>

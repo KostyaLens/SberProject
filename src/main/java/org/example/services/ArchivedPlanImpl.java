@@ -35,6 +35,7 @@ public class ArchivedPlanImpl implements PlanServices<ArchivedPlan>{
 
     @Override
     public void delete(long id) {
+        planRepository.deleteById(id);
     }
 
     public void save(Plan plan) {

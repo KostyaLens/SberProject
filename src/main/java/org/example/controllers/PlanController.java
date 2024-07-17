@@ -178,6 +178,16 @@ public class PlanController {
         return "redirect:/ToDO";
     }
 
+    @PostMapping("/{id}/deleteArch")
+    public String deleteArch(@PathVariable("id") long id, @AuthenticationPrincipal UserDetails userDetails) {
+        User user = userService.findByEmail(userDetails.getUsername()).orElseThrow(() -> new RuntimeException("Пользователь не найден"));
+        if (archivedPlan.findByIdAndUser(id, user).getUser() != user) {
+            return "redirect:/ToDO";
+        }
+        archivedPlan.delete(id);
+        return "redirect:/ToDO";
+    }
+
     @Transactional
     @Scheduled(fixedDelay = 60000)
     public void monitoringRepeatablePlan() {
