@@ -1,29 +1,30 @@
 package org.example.util;
 
-import org.example.entity.User;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 import org.example.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.validation.Errors;
-import org.springframework.validation.Validator;
+
 @Component
-public class UserValidator implements Validator {
-    private final UserService userService;
+public class UserValidator implements
+        ConstraintValidator<UniqueEmail, String> {
     @Autowired
+    public final UserService userService;
+
     public UserValidator(UserService userService) {
         this.userService = userService;
     }
 
     @Override
-    public boolean supports(Class<?> clazz) {
-        return User.class.equals(clazz);
+    public void initialize(UniqueEmail uniqueEmail) {
     }
 
+
     @Override
-    public void validate(Object target, Errors errors) {
-        User user = (User) target;
-        if (userService.findByEmail(user.getEmail()).isPresent()) {
-            errors.rejectValue("email", "", "Человек с таким именем уже зарегестрирован");
-        }
+    public boolean isValid(String contactField,
+                           ConstraintValidatorContext cxt) {
+        return (userService.findByEmail(contactField) != null && contactField != null);
     }
+
 }

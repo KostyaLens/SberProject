@@ -27,6 +27,7 @@ public class UserService {
     }
 
     public Optional<User> findByEmail(String email) {
+        System.out.println(email);
         return userRepository.findByEmail(email);
     }
 

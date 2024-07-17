@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.util.UniqueEmail;
 
 import java.util.Set;
 
@@ -23,6 +24,7 @@ public class User {
     @Column(nullable = false, unique = true)
     @Email(message = "Такого email не сущевствует")
     @NotEmpty(message = "Заполните поле email")
+    @UniqueEmail
     private String email;
 
     @Column(nullable = false)
