@@ -101,11 +101,12 @@
     <div class="form-group">
       <label for="username">Электронная почта:</label>
       <input type="text" id="username" th:field="*{email}"/>
-      <div class="form-error" th:if="${#fields.hasErrors('email')}" th:text="${#fields.errors('email').get(#fields.errors('rating').size() - 1)}"></div>
+      <div class="form-error" th:if="${#fields.hasErrors('email')}" th:text="${#fields.errors('email').get(#fields.errors('email').size() - 1)}"></div>
     </div>
     <div class="form-group">
       <label for="password">Пароль:</label>
       <input type="password" id="password" th:field="*{password}"/>
+      <div class="form-error" th:if="${#fields.hasErrors('password')}" th:text="${#fields.errors('password').get(#fields.errors('password').size() - 1)}"></div>
     </div>
     <button type="submit" class="submit-button">Зарегистрироваться</button>
   </form>

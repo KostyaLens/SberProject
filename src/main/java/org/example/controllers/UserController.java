@@ -30,9 +30,9 @@ public class UserController {
     @PostMapping("/register")
     public String registerUser(@Valid @ModelAttribute("user") User user, BindingResult bindingResult) {
         userValidator.validate(user, bindingResult);
-        if (bindingResult.hasErrors())
-            return "register";
-
+        if (bindingResult.hasErrors()) {
+            return "/register";
+        }
         userService.registerUser(user);
         return "redirect:/login?registerSuccess";
     }

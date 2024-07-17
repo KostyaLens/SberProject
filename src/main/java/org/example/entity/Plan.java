@@ -1,6 +1,7 @@
 package org.example.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -33,8 +34,8 @@ public class Plan {
     private long id;
 
     @Column
-    @NotNull(message = "Не определена важность задачи")
-    private int rating;
+    @Min(message = "Не определена важность задачи", value = 1)
+    private int priority;
 
     @Column
     @NotNull(message = "Не определена категория цели")

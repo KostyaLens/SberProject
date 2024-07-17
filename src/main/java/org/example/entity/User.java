@@ -2,6 +2,8 @@ package org.example.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,10 +21,12 @@ public class User {
     private Long id;
 
     @Column(nullable = false, unique = true)
-    @Email
+    @Email(message = "Такого email не сущевствует")
+    @NotEmpty(message = "Заполните поле email")
     private String email;
 
     @Column(nullable = false)
+    @NotEmpty(message = "Заполните поле пароль")
     private String password;
 
     @Column(nullable = false)

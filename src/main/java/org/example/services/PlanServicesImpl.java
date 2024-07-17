@@ -9,10 +9,12 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+
 @Service
 @Transactional(readOnly = true)
-public class PlanServicesImpl implements PlanServices{
+public class PlanServicesImpl implements PlanServices<Plan> {
     private final PlanRepository planRepository;
+
     @Autowired
     public PlanServicesImpl(PlanRepository planRepository) {
         this.planRepository = planRepository;
@@ -26,41 +28,45 @@ public class PlanServicesImpl implements PlanServices{
 
     @Override
     public Plan findById(long id) {
-        Optional<Plan> foundPlan = planRepository.findById(id);
-        return foundPlan.orElse(null);
+        return planRepository.findById(id).orElseThrow();
+    }
+
+    public Plan findByIdAndUser(long id, User user) {
+        return planRepository.findByIdAndUser(id, user);
     }
 
     @Override
-    public List<Plan> viewAll() {
-        return null;
-    }
-
     public List<Plan> viewAll(User user) {
         return planRepository.findByUser(user);
     }
 
-    public List<Plan> sortByName(User user){
-        return planRepository.findByUserOrderByName(user);
-    }
-
-    public List<Plan> sortByDate(User user){
-        return planRepository.findByUserOrderByDeadline(user);
-    }
-
-    public List<Plan> sortByPriority(User user){
-        return planRepository.findByUserOrderByRatingDesc(user);
-    }
-
-    public List<Plan> findByNameContainingOrDescriptionContaining(String name, String description, User user){
+    public List<Plan> findByNameContainingOrDescriptionContaining(String name, String description, User user) {
         return planRepository.findByNameContainingOrDescriptionContaining(name, description, user);
     }
 
-    public List<Plan> findByNameContainingOrDescriptionContainingAndDeadlineBefore(String name, String description, LocalDateTime deadline, User user){
+    public List<Plan> findByNameContainingOrDescriptionContainingAndDeadlineBefore(String name, String description, LocalDateTime deadline, User user) {
         return planRepository.findByNameContainingOrDescriptionContainingAndDeadlineBefore(name, description, deadline, user);
     }
-    public List<Plan> findByPlanCategory(PlanCategory planCategory, User user){
+
+    public List<Plan> findByPlanCategory(PlanCategory planCategory, User user) {
         return planRepository.findByPlanCategoryAndUser(planCategory, user);
     }
+
+    public List<Plan> sortPlans(User user, String sortCriteria) {
+        switch (sortCriteria) {
+            case "name":
+                return planRepository.findByUserOrderByName(user);
+            case "priority":
+                return planRepository.findByUserOrderByPriorityDesc(user);
+            case "date":
+                return planRepository.findByUserOrderByDeadline(user);
+            case "completed":
+                return planRepository.findByUserOrderByCompleted(user);
+            default:
+                return planRepository.findByUser(user);
+        }
+    }
+
     @Override
     @Transactional
     public void update(Plan plan, long id) {
@@ -74,14 +80,11 @@ public class PlanServicesImpl implements PlanServices{
         planRepository.deleteById(id);
     }
 
-    public List<Plan> findByDateTimeEndPlanBefore(LocalDateTime now){
+    public List<Plan> findByDateTimeEndPlanBefore(LocalDateTime now) {
         return planRepository.findByDateTimeEndPlanBefore(now);
     }
 
-    public List<Plan> findByUserOrderByCompleted(User user){
-        return planRepository.findByUserOrderByCompleted(user);
-    }
-    public LocalDateTime plusTime(Frequency frequency){
+    public LocalDateTime plusTime(Frequency frequency) {
         switch (frequency) {
             case ONEMINUTE:
                 return LocalDateTime.now().plusMinutes(1);

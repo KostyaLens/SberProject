@@ -12,28 +12,46 @@ import java.time.LocalDateTime;
 import java.util.List;
 @Service
 @Transactional(readOnly = true)
-public class ArchivedPlanImpl{
+public class ArchivedPlanImpl implements PlanServices<ArchivedPlan>{
     private final ArchivedPlanRepository planRepository;
     @Autowired
     public ArchivedPlanImpl(ArchivedPlanRepository planRepository) {
         this.planRepository = planRepository;
     }
-
+    @Override
     public void save(ArchivedPlan plan) {
         planRepository.save(plan);
+    }
+
+    @Override
+    public ArchivedPlan findById(long id) {
+        return null;
+    }
+
+    @Override
+    public void update(ArchivedPlan plan, long id) {
+
+    }
+
+    @Override
+    public void delete(long id) {
     }
 
     public void save(Plan plan) {
         ArchivedPlan plan1 = new ArchivedPlan();
         plan1.setName(plan.getName());
         plan1.setPlanCategory(plan.getPlanCategory());
-        plan1.setRating(plan.getRating());
+        plan1.setRating(plan.getPriority());
         plan1.setDeadline(plan.getDeadline());
         plan1.setDescription(plan.getDescription());
         plan1.setUser(plan.getUser());
         save(plan1);
     }
-
+    @Override
+    public ArchivedPlan findByIdAndUser(long id, User user){
+        return planRepository.findByIdAndUser(id, user);
+    }
+    @Override
     public List<ArchivedPlan> viewAll(User user) {
         return planRepository.findByUser(user);
     }

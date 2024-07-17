@@ -11,6 +11,7 @@ import java.util.List;
 @Repository
 public interface ArchivedPlanRepository extends JpaRepository<ArchivedPlan, Long> {
     List<ArchivedPlan> findByUser(User user);
+    ArchivedPlan findByIdAndUser(long id, User user);
     @Query(value = "SELECT p FROM ArchivedPlan p WHERE (p.name LIKE %?1% OR p.description LIKE %?2%) AND p.user = ?3")
     List<ArchivedPlan> findByNameContainingOrDescriptionContaining(String name, String description, User user);
     @Query(value = "SELECT p FROM ArchivedPlan p WHERE ((p.name LIKE %?1% OR p.description LIKE %?2%) AND p.deadline <= ?3) AND p.user = ?4")

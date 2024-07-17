@@ -16,8 +16,8 @@ public interface PlanRepository extends JpaRepository<Plan, Long> {
     List<Plan> findByPlanCategoryAndUser(PlanCategory planCategory, User user);
     List<Plan> findByUser(User user);
     List<Plan> findByUserOrderByCompleted(User user);
-
-    List<Plan> findByUserOrderByRatingDesc(User user);
+    Plan findByIdAndUser(long id, User user);
+    List<Plan> findByUserOrderByPriorityDesc(User user);
     List<Plan> findByUserOrderByName(User user);
     List<Plan> findByUserOrderByDeadline(User user);
     @Query(value = "SELECT p FROM Plan p WHERE (p.name LIKE %?1% OR p.description LIKE %?2%) AND p.user = ?3")

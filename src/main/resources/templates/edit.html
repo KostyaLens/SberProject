@@ -1,40 +1,3 @@
-<!--<!DOCTYPE html>-->
-<!--<html lang="en" xmlns:th="http://www.thymeleaf.org">-->
-<!--<head>-->
-<!--    <meta charset="UTF-8">-->
-<!--    <title>Update plan</title>-->
-<!--</head>-->
-<!--<body>-->
-
-<!--<form th:method="post" th:action="@{/ToDO/{id}/edit(id=${onePlan.getId()})}" th:object="${onePlan}">-->
-<!--    <label for="name">Название цели: </label>-->
-<!--    <input type="text" th:field="*{name}" id="name" th:value="${onePlan.getName()}"/>-->
-<!--    <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</div>-->
-<!--    <br/>-->
-<!--    Описание: <input type="text" step="any" th:field="*{description}" th:value="${onePlan.getDescription()}"/>-->
-<!--    <div class="form-error" th:if="${#fields.hasErrors('description')}" th:text="${#fields.errors('description').get(#fields.errors('description').size() - 1)}" ></div><br />-->
-<!--    <div><input type = "radio" value="1" th:field="*{rating}" /> <input type = "radio"-->
-<!--             value="2" th:field="*{rating}" /> <input type = "radio" value="3" th:field="*{rating}"/>-->
-<!--        <input type = "radio" value="4" th:field="*{rating}" />-->
-<!--        <input type = "radio" value="5" th:field="*{rating}" />-->
-<!--        <div  th:if="${#fields.hasErrors('rating')}" th:text="${#fields.errors('rating').get(#fields.errors('rating').size() - 1)}" ></div></div>-->
-<!--    <label for="localdate">Дата и время: </label>-->
-<!--    <input type="datetime-local" id="localdate" th:field="*{deadline}" name="date" th:value="${onePlan.getDeadline()}"/>-->
-<!--    <div  th:if="${#fields.hasErrors('deadline')}" th:text="${#fields.errors('deadline').get(#fields.errors('deadline').size() - 1)}"  ></div><br />-->
-<!--    <label for="category-select">Категория задачи:</label>-->
-<!--    <select th:field="*{planCategory}" id="category-select">-->
-<!--        <option th:value="${onePlan.getPlanCategory()}"></option>-->
-<!--        <option value='HOUSEHOLD'>Бытовая</option>-->
-<!--        <option value='ANY'>Все остальные</option>-->
-<!--    </select>-->
-<!--    <div  th:if="${#fields.hasErrors('planCategory')}" th:text="${#fields.errors('planCategory').get(#fields.errors('deadline').size() - 1)}" ></div><br />-->
-<!--    Завершить цель: <input type="checkbox" value="true" name="completed">-->
-<!--    <input type="submit" value="Update!"/>-->
-<!--</form>-->
-
-<!--</body>-->
-<!--</html>-->
-
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -151,13 +114,13 @@
         <div class="form-group">
             <label>Важность:</label>
             <div class="rating">
-                <input type="radio" id="star5" name="rating" value="5" th:field="*{rating}" th:checked="${onePlan.getRating() == 5}"/><label for="star5" title="5 stars">★</label>
-                <input type="radio" id="star4" name="rating" value="4" th:field="*{rating}" th:checked="${onePlan.getRating() == 4}"/><label for="star4" title="4 stars">★</label>
-                <input type="radio" id="star3" name="rating" value="3" th:field="*{rating}" th:checked="${onePlan.getRating() == 3}"/><label for="star3" title="3 stars">★</label>
-                <input type="radio" id="star2" name="rating" value="2" th:field="*{rating}" th:checked="${onePlan.getRating() == 2}"/><label for="star2" title="2 stars">★</label>
-                <input type="radio" id="star1" name="rating" value="1" th:field="*{rating}" th:checked="${onePlan.getRating() == 1}"/><label for="star1" title="1 star">★</label>
+                <input type="radio" id="star5" name="rating" value="5" th:field="*{priority}" th:checked="${onePlan.getPriority() == 5}"/><label for="star5" title="5 stars">★</label>
+                <input type="radio" id="star4" name="rating" value="4" th:field="*{priority}" th:checked="${onePlan.getPriority() == 4}"/><label for="star4" title="4 stars">★</label>
+                <input type="radio" id="star3" name="rating" value="3" th:field="*{priority}" th:checked="${onePlan.getPriority() == 3}"/><label for="star3" title="3 stars">★</label>
+                <input type="radio" id="star2" name="rating" value="2" th:field="*{priority}" th:checked="${onePlan.getPriority() == 2}"/><label for="star2" title="2 stars">★</label>
+                <input type="radio" id="star1" name="rating" value="1" th:field="*{priority}" th:checked="${onePlan.getPriority() == 1}"/><label for="star1" title="1 star">★</label>
             </div>
-            <div class="form-error" th:if="${#fields.hasErrors('rating')}" th:text="${#fields.errors('rating').get(#fields.errors('rating').size() - 1)}"></div>
+            <div class="form-error" th:if="${#fields.hasErrors('priority')}" th:text="${#fields.errors('rating').get(#fields.errors('priority').size() - 1)}"></div>
         </div>
         <div class="form-group">
             <label for="localdate">Дата и время:</label>
@@ -173,7 +136,7 @@
             </select>
             <div class="form-error" th:if="${#fields.hasErrors('planCategory')}" th:text="${#fields.errors('planCategory').get(#fields.errors('planCategory').size() - 1)}"></div>
         </div>
-        <div class="checkbox-group">
+        <div class="checkbox-group" th:if="${onePlan.class.name =='org.example.entity.Plan'}">
             <input type="checkbox" id="completed" th:field="*{completed}" th:checked="${onePlan.isCompleted()}"/>
             <label for="completed">Завершить цель</label>
         </div>
@@ -182,7 +145,9 @@
 <!--        </div>-->
 
         <input type="submit" value="Обновить" class="submit-button"/>
+        <a th:href="@{/ToDO}" class="submit-button">На главную</a>
     </form>
+<!--    <a th:href="@{/ToDO}">На главную</a>-->
 </div>
 </body>
 </html>
