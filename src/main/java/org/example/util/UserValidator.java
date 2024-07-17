@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 public class UserValidator implements
         ConstraintValidator<UniqueEmail, String> {
     @Autowired
-    public final UserService userService;
+    private final UserService userService;
 
     public UserValidator(UserService userService) {
         this.userService = userService;
