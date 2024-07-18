@@ -21,10 +21,11 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
+//    @Email(message = "Такого email не сущевствует")
+//    @NotEmpty(message = "Заполните поле email")
+//    @UniqueEmail
     @Column(nullable = false, unique = true)
-    @Email(message = "Такого email не сущевствует")
-    @NotEmpty(message = "Заполните поле email")
-    @UniqueEmail
     private String email;
 
     @Column(nullable = false)

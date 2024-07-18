@@ -29,7 +29,7 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public String registerUser(@Valid @ModelAttribute("user") User user, BindingResult bindingResult) {
+    public String registerUser(@ModelAttribute("user") User user, BindingResult bindingResult) {
 //        userValidator.validate(user, bindingResult);
         if (bindingResult.hasErrors()) {
             return "/register";
