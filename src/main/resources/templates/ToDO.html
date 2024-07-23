@@ -2,32 +2,347 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>o</title>
+    <title>ToDO</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            position: relative;
+        }
+        .header {
+            width: 100%;
+            background-color: #7B68EE;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+            font-size: 1.5em;
+            border-bottom: 2px solid #5a48b1;
+            position: relative;
+        }
+        .logout-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #FF6347;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px;
+            cursor: pointer;
+            font-size: 0.875em;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            width: auto;
+        }
+        .logout-button:hover {
+            background-color: #FF4500;
+            transform: scale(1.05);
+        }
+        .logout-button:active {
+            background-color: #FF0000;
+            transform: scale(0.95);
+        }
+        .main-content {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+        }
+        .container {
+            width: 45%;
+            padding: 20px;
+            background: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            margin: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .form-group .form-error {
+            color: red;
+            font-size: 0.875em;
+        }
+        .rating {
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: flex-end;
+        }
+        .rating input {
+            display: none;
+        }
+        .rating label {
+            font-size: 2em;
+            color: #ccc;
+            cursor: pointer;
+        }
+        .rating input:checked ~ label,
+        .rating label:hover,
+        .rating label:hover ~ label {
+            color: gold;
+        }
+        button {
+            padding: 10px 20px;
+            background: #7B68EE;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px 0;
+            font-size: 1em;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        button:hover {
+            transform: scale(1.05);
+        }
+        button:active {
+            transform: scale(0.95);
+        }
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .button-group-left, .button-group-right {
+            display: flex;
+            flex-direction: column;
+            width: 48%;
+        }
+        .plans-list {
+            width: 95%;
+            display: flex;
+            flex-direction: column;
+        }
+        .plan-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            margin: 5px 0;
+            background: #f1f1f1;
+            text-decoration: none;
+            color: #333;
+            border-radius: 5px;
+        }
+        .plan-item span {
+            flex-grow: 1;
+        }
+        .plan-item .status {
+            color: green;
+            font-weight: bold;
+            margin-left: auto;
+            margin-right: 10px;
+        }
+        .plan-item .buttons {
+            display: flex;
+            gap: 5px;
+        }
+        .plan-item input[type="submit"],
+        .plan-item .edit-button {
+            width: auto;
+            padding: 5px 10px;
+            margin: 0;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #ccc;
+            color: white;
+        }
+        .plan-item input[type="submit"].delete-button:hover {
+            background-color: #FF6347;
+        }
+        .plan-item input[type="submit"].complete-button:hover {
+            background-color: #32CD32;
+        }
+        .plan-item .edit-button:hover {
+            background-color: #FFD700;
+        }
+        .plan-item .edit-button {
+            background: url('https://img.icons8.com/ios-filled/50/000000/pencil.png') no-repeat center center;
+            background-size: 20px;
+            width: 40px;
+            height: 40px;
+            background-color: #ccc;
+        }
+        #success-message {
+            display: none;
+            color: green;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .show {
+            display: block !important;
+        }
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 1; }
+        }
+        #success-message.animated {
+            animation: fadeInOut 2s forwards;
+        }
+        .category-group {
+            margin-bottom: 15px;
+        }
+        .submit-button {
+            padding: 10px 20px;
+            background: #7B68EE;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            font-size: 1em;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        .submit-button:hover {
+            background-color: #6a5acd;
+            transform: scale(1.05);
+        }
+        .submit-button:active {
+            background-color: #5a48b1;
+            transform: scale(0.95);
+        }
+    </style>
 </head>
 <body>
-
-<form action="/ToDO" method="post">
-    Название цели: <input type="text" name="name"><br />
-    Описание: <input type="text" step="any" name="description"><br />
-    <div><input type = "radio" value="1" name="rating" /> <input type = "radio"
-             value="2" name="rating" /> <input type = "radio" value="3" name="rating" />
-        <input type = "radio" value="4" name="rating" />
-        <input type = "radio" value="5" name="rating" /></div>
-    <label for="localdate">Дата и время: </label>
-    <input type="datetime-local" id="localdate" name="date"/><br />
-    <button type="submit">Добавить план</button>
-</form>
-
-<!--<form method="get">-->
-<!--    <button type="submit">Сортировать по важности</button>-->
-<!--</form>-->
-
-
-<div th:each="plan : ${plan}">
-    <a th:text="${plan.getName()}"
-       th:href="@{/ToDO/{id}(id=${plan.getId()})}">plan</a>
-<!--    <button type="submit" th:href="@{/ToDO/{id}(id=${plan.getId()})}" >Update</button>-->
+<div class="header">
+    ToDO
+    <a class="logout-button" th:href="@{/logout}">Выйти</a>
 </div>
+<div class="main-content">
+    <div class="container">
+        <form th:action="@{/ToDO}" th:method="post" th:object="${plan}" id="plan-form">
+            <div class="form-group">
+                <label for="name">Название цели:</label>
+                <input type="text" th:field="*{name}" id="name"/>
+                <div class="form-error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</div>
+            </div>
+            <div class="form-group">
+                <label for="description">Описание:</label>
+                <input type="text" step="any" th:field="*{description}" id="description"/>
+                <div class="form-error" th:if="${#fields.hasErrors('description')}" th:text="${#fields.errors('description').get(#fields.errors('description').size() - 1)}"></div>
+            </div>
+            <div class="form-group">
+                <label>Важность:</label>
+                <div class="rating">
+                    <input type="radio" id="star5" name="rating" value="5" th:field="*{priority}"/><label for="star5" title="5 stars">★</label>
+                    <input type="radio" id="star4" name="rating" value="4" th:field="*{priority}"/><label for="star4" title="4 stars">★</label>
+                    <input type="radio" id="star3" name="rating" value="3" th:field="*{priority}"/><label for="star3" title="3 stars">★</label>
+                    <input type="radio" id="star2" name="rating" value="2" th:field="*{priority}"/><label for="star2" title="2 stars">★</label>
+                    <input type="radio" id="star1" name="rating" value="1" th:field="*{priority}"/><label for="star1" title="1 star">★</label>
+                </div>
+                <div class="form-error" th:if="${#fields.hasErrors('priority')}" th:text="${#fields.errors('priority').get(#fields.errors('priority').size() - 1)}"></div>
+            </div>
+            <div class="form-group">
+                <label for="localdate">Дата и время:</label>
+                <input type="datetime-local" id="localdate" th:field="*{deadline}"/>
+                <div class="form-error" th:if="${#fields.hasErrors('deadline')}" th:text="${#fields.errors('deadline').get(#fields.errors('deadline').size() - 1)}"></div>
+            </div>
+            <div class="form-group">
+                <label for="category-select">Категория задачи:</label>
+                <select th:field="*{planCategory}" id="category-select">
+                    <option value=''>-Выберите категорию задачи--</option>
+                    <option value='HOUSEHOLD'>Бытовая</option>
+                    <option value='ANY'>Все остальные</option>
+                </select>
+                <div class="form-error" th:if="${#fields.hasErrors('planCategory')}" th:text="${#fields.errors('planCategory').get(#fields.errors('planCategory').size() - 1)}"></div>
+            </div>
 
+            <div class="form-group">
+                <label for="category-selectFrequence">Выберите частоту повторения плана:</label>
+                <select name="frequency" id="category-selectFrequence">
+                    <option value='NEVER'>-Выберите частоту повторения плана--</option>
+                    <option value='ONEMINUTE'> 1 Минута</option>
+                    <option value= 'ONEHOUR'> 1 Час</option>
+                    <option value='ONEDAY'> 1 День</option>
+                    <option value='ONEWEEK'> 1 Неделя</option>
+                    <option value='ONEMOUTH'> 1 Месяц</option>
+                    <option value='SIXMOUTH'> 6 Месяцев</option>
+                    <option value='ONEYEAR'> 1 Год</option>
+                </select>
+            </div>
+
+            <button type="submit" id="submit-button">Добавить план</button>
+            <div id="success-message" th:if="${planAddedSuccessfully}" class="animated">План успешно добавлен!</div>
+        </form>
+    </div>
+    <div class="container">
+        <h3>Управление планами</h3>
+        <div class="button-group">
+            <div class="button-group-left">
+                <a href="/ToDO/sort?sortCriteria=name" class="submit-button">Сортировать по названию</a>
+                <a href="/ToDO/sort?sortCriteria=priority" class="submit-button">Сортировать по важности</a>
+                <a href="/ToDO/sort?sortCriteria=date" class="submit-button">Сортировать по срокам выполнения</a>
+                <a href="/ToDO/sort?sortCriteria=completed" class="submit-button">Показать вначале не выполненые задачи</a>
+                <form action="/ToDO/archived" method="get">
+                    <button type="submit">Показать список архивированых задач</button>
+                </form>
+            </div>
+            <div class="button-group-right">
+                <div class="form-group">
+                    <form action="/ToDO/findCategory" method="get">
+                        <select name="category">
+                            <option value= 'ANY'>-Выберите категорию задачи--</option>
+                            <option value='HOUSEHOLD'>Бытовая</option>
+                            <option value='ANY'>Все остальные</option>
+                        </select>
+                        <button type="submit">Показать по категории</button>
+                    </form>
+                </div>
+                <form action="/ToDO/findByKeyWordOrDate" method="get">
+                    <div class="form-group">
+                        <label for="keyword">Ключевое слово:</label>
+                        <input type="text" id="keyword" name="name">
+                    </div>
+                    <div class="form-group">
+                        <label for="localDateTime">Дата и время:</label>
+                        <input type="datetime-local" id="localDateTime" name="date">
+                    </div>
+                    <button type="submit">Поиск</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container plans-list">
+    <h3>Список планов</h3>
+    <div th:each="plan : ${plans}" class="plan-item">
+        <a th:href="@{/ToDO/{id}(id=${plan.getId()})}">
+            <span th:text="${plan.getName()}">plan</span>
+        </a>
+        <div class="status" th:if="${plan.isCompleted()}">Выполнен</div>
+        <div class="buttons">
+            <form th:action="@{/ToDO/{id}/archived(id=${plan.getId()})}" method="post">
+                <input type="submit" value="Архивировать" th:if="${(plan.isCompleted() == true) and (plan.getFrequency() != NEVER)}">
+            </form>
+            <form th:action="@{/ToDO/{id}/delete(id=${plan.getId()})}" method="post">
+                <input type="submit" value="Удалить" class="delete-button">
+            </form>
+            <a th:href="@{/ToDO/{id}/edit(id=${plan.getId()})}">
+                <input type="submit" value="" class="edit-button">
+            </a>
+        </div>
+    </div>
+    <div th:each="archivedPlan : ${archivedPlans}" class="plan-item">
+        <a th:href="@{/ToDO/{id}/arch(id=${archivedPlan.getId()})}"><span th:text="${archivedPlan.getName()}">plan</span></a>
+    </div>
+</div>
 </body>
 </html>
+
