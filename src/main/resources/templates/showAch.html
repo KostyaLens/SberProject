@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Детали цели</title>
-    <style>
+  <meta charset="UTF-8">
+  <title>Детали цели</title>
+  <style>
     body {
       display: flex;
       flex-direction: column;
@@ -66,34 +66,28 @@
 </head>
 <body>
 <div class="container">
-    <h1>Детали цели</h1>
-    <div class="detail-item">
-        <span>Название цели:</span> <p th:text="${onePlan.name}"></p>
-    </div>
-    <div class="detail-item">
-        <span>Описание:</span> <p th:text="${onePlan.description}"></p>
-    </div>
-    <div class="detail-item">
-        <span>Выполнить до:</span> <p th:text="${onePlan.deadline}"></p>
-    </div>
-    <div class="detail-item">
-        <span>Важность задачи:</span> <p th:text="${onePlan.priority}"></p>
-    </div>
-    <div class="detail-item">
-        <span>Категория задачи:</span> <p th:text="${onePlan.planCategory}"></p>
-    </div>
-    <div class="detail-item">
-        <span>Цель выполнена:</span>
-        <p th:if="${onePlan.completed}" th:text="'Выполнена'"></p>
-        <p th:if="${!onePlan.completed}" th:text="'Не выполнена'"></p>
-    </div>
-    <div class="button-group">
-        <form th:method="post" th:action="@{/ToDO/{id}/delete(id=${onePlan.id})}">
-            <button type="submit">Удалить</button>
-        </form>
-        <a th:href="@{/ToDO/{id}/edit(id=${onePlan.id})}">Редактировать</a>
-        <a th:href="@{/ToDO}">На главную</a>
-    </div>
+  <h1>Детали цели</h1>
+  <div class="detail-item">
+    <span>Название цели:</span> <p th:text="${onePlan.name}"></p>
+  </div>
+  <div class="detail-item">
+    <span>Описание:</span> <p th:text="${onePlan.description}"></p>
+  </div>
+  <div class="detail-item">
+    <span>Выполнить до:</span> <p th:text="${onePlan.deadline}"></p>
+  </div>
+  <div class="detail-item">
+    <span>Важность задачи:</span> <p th:text="${onePlan.rating}"></p>
+  </div>
+  <div class="detail-item">
+    <span>Категория задачи:</span> <p th:text="${onePlan.planCategory}"></p>
+  </div>
+  <div class="button-group">
+    <form th:method="post" th:action="@{/ToDO/{id}/deleteArch(id=${onePlan.id})}">
+      <button type="submit">Удалить</button>
+    </form>
+    <a th:href="@{/ToDO}">На главную</a>
+  </div>
 </div>
 </body>
 </html>
